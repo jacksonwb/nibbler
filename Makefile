@@ -6,7 +6,7 @@
 #    By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/03 12:06:08 by jbeall            #+#    #+#              #
-#    Updated: 2019/05/30 14:26:49 by jbeall           ###   ########.fr        #
+#    Updated: 2019/05/31 18:36:41 by jbeall           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,8 @@ dylib:
 	@mkdir -p $(LIB_DIR)
 	@clang++ -std=c++11 -g -shared -fPIC -l ncurses -o $(LIB_DIR)lib1.dylib $(SRC_DIR)Render1.cpp
 	@echo "lib1 successfully built!"
+	@clang++ -std=c++11 -g -shared -fPIC -I ~/.brew/include -L ~/.brew/lib -l SDL2 -l SDL2_ttf -o $(LIB_DIR)lib2.dylib $(SRC_DIR)Render2.cpp
+	@echo "lib2 successfully built!"
 obj:
 	@mkdir -p $(OBJ_DIR)
 

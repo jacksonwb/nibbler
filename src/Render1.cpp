@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 11:15:21 by jbeall            #+#    #+#             */
-/*   Updated: 2019/05/30 21:26:55 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/31 18:36:18 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void Render::drawGame(void) {
 	for (int i = 1; i < game.map_height; i++) {
 		for (int j = 1; j < game.map_width; j++) {
 			if (game.ar[j][i]) {
-				int c = '@';
+				int c = '0';
 			switch (game.ar[j][i]) {
 				case (HEAD_CHAR):
-					c = 174;
+					c = '@';
 					break;
 				case (SECTION_CHAR):
 					c = '#';
@@ -75,7 +75,10 @@ void Render::init(void) {
 }
 
 char Render::getInput(void) {
-	return (getch());
+	char c = getch();
+	if (c == ESC_KEY)
+		return ('q');
+	return (c);
 }
 
 void Render::destroy(void) {

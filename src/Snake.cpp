@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 13:45:31 by jbeall            #+#    #+#             */
-/*   Updated: 2019/05/30 21:44:28 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/31 18:51:54 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ SnakeSection::SnakeSection(SnakeSection const &in) {
 	*this = in;
 }
 
-Snake::Snake(unsigned x, unsigned y) : s_direct (eDirection::Up) {
+Snake::Snake(unsigned x, unsigned y) : s_direct (eDirection::Up), next_direct(eDirection::Up) {
 	for (int i = 0; i < 4; i++) {
 		snake_segments.push_back(SnakeSection(x, y - i));
 	}
@@ -33,6 +33,7 @@ SnakeSection const &Snake::head(void) {
 }
 
 void Snake::move(void) {
+	s_direct = next_direct;
 	for (int i = snake_segments.size() - 1; i > 0; i--) {
 		snake_segments[i].x = snake_segments[i - 1].x;
 		snake_segments[i].y = snake_segments[i - 1].y;
@@ -55,12 +56,13 @@ void Snake::move(void) {
 }
 
 void Snake::turn(enum eDirection direction) {
-	if (((int)direction + 2) % 5 + 1 == (int)s_direct)
+	if (((int)direction + 1) % 4 + 1 == (int)s_direct)
 		return;
-	s_direct = direction;
+	next_direct = direction;
 }
 
 void Snake::grow() {
+	s_direct = next_direct;
 	SnakeSection end = snake_segments.back();
 	move();
 	snake_segments.push_back(end);

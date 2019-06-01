@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 13:45:31 by jbeall            #+#    #+#             */
-/*   Updated: 2019/05/30 16:38:27 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/31 18:46:32 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ class SnakeSection {
 
 class Snake {
 	enum eDirection s_direct;
+	enum eDirection next_direct;
 	public:
-	std::vector<SnakeSection> snake_segments;
+		std::vector<SnakeSection> snake_segments;
 		Snake(unsigned, unsigned);
 		SnakeSection const &head(void);
 		void move(void);

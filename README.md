@@ -24,7 +24,8 @@ A simple recreation of the classic Snake game employing dynamically loaded visua
 ## Build
 `make; make dylib`
 
-On MacOS a simple script has been included to install dependencies through brew. Install with : `./install.sh`
+On MacOS a simple script has been included to install dependencies through brew.
+Install with : `./install.sh`
 
 ## Graphics Module Interface
 Each graphics module is seperately compiled as a shared object and loaded dynamically during runtime. The game makes calls to the graphics library using the following class interface:

@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 13:45:31 by jbeall            #+#    #+#             */
-/*   Updated: 2019/05/31 19:00:23 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/06/03 17:17:55 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void Food::respawn(unsigned width, unsigned height, Snake &snake) {
 	} while (collision);
 }
 
-Game::Game(unsigned width, unsigned height) : snake(width / 2, height / 2),
+Game::Game(unsigned width, unsigned height, bool hard) : snake(width / 2, height / 2),
 	food(width, height), move_interval(0.15), last_move(std::chrono::steady_clock::now()), score(0),
-	map_width(width), map_height(height), paused(false), game_over(false)
+	map_width(width), map_height(height), paused(false), game_over(false), hard(hard)
 {
 	bzero(ar, sizeof(ar));
 };
@@ -61,6 +61,8 @@ void Game::update(void) {
 		if (snake.getX() == food.x && snake.getY() == food.y) {
 			score++;
 			food.respawn(map_width, map_height, snake);
+			if (hard)
+				move_interval *= .95;
 			grow = true;
 		}
 		last_move = now;
@@ -68,14 +70,60 @@ void Game::update(void) {
 	}
 }
 
+char Game::writeHead(std::vector<SnakeSection>::iterator it) {
+	if ((it + 1)->x > it->x)
+		return H_L;
+	if ((it + 1)->x < it->x)
+		return H_R;
+	if ((it + 1)->y < it->y)
+		return H_U;
+	return H_D;
+}
+
+char Game::writeTail(std::vector<SnakeSection>::iterator it) {
+	if ((it - 1)->x < it->x)
+		return T_L;
+	if ((it - 1)->x > it->x)
+		return  T_R;
+	if ((it - 1)->y > it->y)
+		return T_U;
+	return T_D;
+}
+
+char Game::writeSection(std::vector<SnakeSection>::iterator it) {
+	if ((it + 1)->y  == (it - 1)->y)
+		return S_RL;
+	if ((it + 1)->x == (it - 1)->x)
+		return S_UD;
+	if ((it + 1)->x < it->x && (it - 1)->y > it->y)
+		return S_LU;
+	if ((it - 1)->x < it->x && (it + 1)->y > it->y)
+		return S_LU;
+	if ((it + 1)->y > it->y && (it - 1)->x > it->x)
+		return S_RU;
+	if ((it - 1)->y > it->y && (it + 1)->x > it->x)
+		return S_RU;
+	if ((it - 1)->y < it->y && (it + 1)->x > it->x)
+		return S_DR;
+	if ((it + 1)->y < it->y && (it - 1)->x > it->x)
+		return S_DR;
+	return S_LD;
+}
+
 void Game::updateMap(void) {
 	bzero(ar, sizeof(ar));
 	ar[food.x][food.y] = FOOD_CHAR;
-	for (auto section : snake.snake_segments)
+	for (auto it = snake.snake_segments.begin(); it != snake.snake_segments.end(); it++)
 	{
-		ar[section.x][section.y] = SECTION_CHAR;
+		int x = it->x;
+		int y = it->y;
+		if (it == snake.snake_segments.begin())
+			ar[x][y] = writeHead(it);
+		else if (it + 1 == snake.snake_segments.end())
+			ar[x][y] = writeTail(it);
+		else
+			ar[x][y] = writeSection(it);
 	}
-	ar[snake.head().x][snake.head().y] = HEAD_CHAR;
 }
 
 void Game::reset(void) {
@@ -84,6 +132,7 @@ void Game::reset(void) {
 	paused = false;
 	food.respawn(map_width, map_height, snake);
 	game_over = false;
+	move_interval = std::chrono::duration<double>(0.15);
 }
 
 bool Game::isPaused(void) const {

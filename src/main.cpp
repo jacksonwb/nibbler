@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 16:31:20 by jbeall            #+#    #+#             */
-/*   Updated: 2019/05/31 18:39:57 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/06/03 17:09:26 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,21 @@ void unload_helper(void **lib, IRender **render) {
 	lib = NULL;
 }
 
-void init_helper(int argc, char **argv, unsigned *w, unsigned *h) {
-	if (argc != 3) {
-		std::cout << "usage: ./nibbler width height" << std::endl;
+void init_helper(int argc, char **argv, unsigned *w, unsigned *h, bool *hard) {
+	if (argc < 3 || argc > 4) {
+		std::cout << "usage: ./nibbler [-h] width height" << std::endl;
 		exit(0);
 	}
-	*w = std::stoul(argv[1]);
-	*h = std::stoul(argv[2]);
+	if (argc == 4) {
+		if (!strcmp(argv[1], "-h"))
+			*hard = true;
+		else {
+			std::cout << "usage: ./nibbler [-h] width height" << std::endl;
+			exit(0);
+		}
+	}
+	*w = std::stoul(argv[1 + (*hard ? 1 : 0)]);
+	*h = std::stoul(argv[2 + (*hard ? 1 : 0)]);
 	if (*w > GAME_SIZE_MAX || *w < GAME_SIZE_MIN || *h > GAME_SIZE_MAX
 		|| *h < GAME_SIZE_MIN)
 	{
@@ -57,11 +65,12 @@ int main(int argc, char **argv)
 	IRender *render;
 	unsigned width = 0;
 	unsigned height = 0;
+	bool hard = false;
 	srand(time(NULL));
-	init_helper(argc, argv, &width, &height);
-	Game game(width, height);
+	init_helper(argc, argv, &width, &height, &hard);
+	Game game(width, height, hard);
 	load_helper("lib/lib2.dylib", &lib, &render, game);
-	char in = 0;
+	unsigned in = 0;
 
 	while (in != 'q') {
 		if (!game.isPaused())
@@ -91,6 +100,10 @@ int main(int argc, char **argv)
 			case('2'):
 				unload_helper(&lib, &render);
 				load_helper("lib/lib2.dylib", &lib, &render, game);
+				break;
+			case('3'):
+				unload_helper(&lib, &render);
+				load_helper("lib/lib3.dylib", &lib, &render, game);
 				break;
 		}
 		render->render();

@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 13:45:31 by jbeall            #+#    #+#             */
-/*   Updated: 2019/05/31 18:54:38 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/06/03 17:09:40 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ class Game {
 		unsigned const map_height;
 		bool paused;
 		bool game_over;
+		bool hard;
 		char ar[GAME_SIZE_MAX + 1][GAME_SIZE_MAX + 1];
-		Game(unsigned, unsigned);
+		Game(unsigned, unsigned, bool);
 		void update();
 		void reset();
 		bool isPaused() const;
@@ -45,6 +46,9 @@ class Game {
 		void init(void);
 		unsigned getWidth(void) const;
 		unsigned getHeight(void) const;
+		char writeHead(std::vector<SnakeSection>::iterator it);
+		char writeTail(std::vector<SnakeSection>::iterator it);
+		char writeSection(std::vector<SnakeSection>::iterator it);
 		Snake &getSnake(void);
 		~Game();
 };

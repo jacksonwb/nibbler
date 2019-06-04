@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Render2.hpp                                        :+:      :+:    :+:   */
+/*   Render3.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 13:45:31 by jbeall            #+#    #+#             */
-/*   Updated: 2019/06/03 20:20:12 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/06/03 16:27:35 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER2_HPP
-# define  RENDER2_HPP
+#ifndef RENDER3_HPP
+# define  RENDER3_HPP
 #include "IRender.hpp"
 #include "Game.hpp"
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_opengl.h>
 #include <iostream>
 
-#define RATIO 20
+#define RATIO 30
+#define SPRITE_SIZE 64
 
 class Render : public IRender {
 	Game &game;
@@ -26,12 +29,16 @@ class Render : public IRender {
 	SDL_Renderer *ren;
 	TTF_Font *font;
 	SDL_Event e;
+	SDL_Texture *sprite;
 	void drawWindow(void);
 	void drawGame(void);
 	void drawPause(void);
 	void drawGameOver(void);
 	void drawScore(void);
-	bool isHeadChar(char c);
+	void drawHead(int, int, int);
+	void drawFood(int, int);
+	void drawSection(int, int, int);
+	void drawTail(int, int, int);
 	public:
 		Render(Game &in) : game(in) {};
 		void init(void);

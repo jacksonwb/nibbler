@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 11:15:21 by jbeall            #+#    #+#             */
-/*   Updated: 2019/05/31 18:36:18 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/06/03 12:10:33 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,22 @@ void Render::drawGame(void) {
 			if (game.ar[j][i]) {
 				int c = '0';
 			switch (game.ar[j][i]) {
-				case (HEAD_CHAR):
+				case (H_U):
+					c = '^';
+					break;
+				case (H_D):
+					c = 'v';
+					break;
+				case (H_L):
+					c = '<';
+					break;
+				case (H_R):
+					c = '>';
+					break;
+				case (FOOD_CHAR):
 					c = '@';
 					break;
-				case (SECTION_CHAR):
+				default:
 					c = '#';
 					break;
 			}
@@ -75,9 +87,17 @@ void Render::init(void) {
 }
 
 char Render::getInput(void) {
-	char c = getch();
+	unsigned c = getch();
 	if (c == ESC_KEY)
 		return ('q');
+	if (c == KEY_UP)
+		return ('w');
+	if (c == KEY_DOWN)
+		return ('s');
+	if (c == KEY_LEFT)
+		return ('a');
+	if (c == KEY_RIGHT)
+		return ('d');
 	return (c);
 }
 

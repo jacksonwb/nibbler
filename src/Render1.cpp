@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 11:15:21 by jbeall            #+#    #+#             */
-/*   Updated: 2019/06/03 12:10:33 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/06/04 13:56:46 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void Render::drawGame(void) {
 		for (int j = 1; j < game.map_width; j++) {
 			if (game.ar[j][i]) {
 				int c = '0';
+			attron(COLOR_PAIR(1));
 			switch (game.ar[j][i]) {
 				case (H_U):
 					c = '^';
@@ -44,6 +45,7 @@ void Render::drawGame(void) {
 					c = '>';
 					break;
 				case (FOOD_CHAR):
+					attron(COLOR_PAIR(2));
 					c = '@';
 					break;
 				default:
@@ -51,6 +53,8 @@ void Render::drawGame(void) {
 					break;
 			}
 				mvaddch(game.map_height - i, j, c);
+				attroff(COLOR_PAIR(1));
+				attroff(COLOR_PAIR(2));
 			}
 		}
 	}
@@ -82,6 +86,10 @@ void Render::init(void) {
 	nodelay(stdscr, TRUE);
 	curs_set(0);
 	keypad(stdscr, TRUE);
+	start_color();
+	use_default_colors();
+	init_pair(1, COLOR_GREEN, -1);
+	init_pair(2, COLOR_RED, -1);
 	refresh();
 	ESCDELAY = 0;
 }

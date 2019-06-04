@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 13:45:31 by jbeall            #+#    #+#             */
-/*   Updated: 2019/06/03 16:27:35 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/06/04 10:38:38 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 # define  RENDER3_HPP
 #include "IRender.hpp"
 #include "Game.hpp"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_opengl.h>
+#include <SDL.h>
+#include <SDL_ttf.h>
+#include <SDL_image.h>
+#include <SDL_opengl.h>
 #include <iostream>
 
 #define RATIO 30

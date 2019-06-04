@@ -6,15 +6,15 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 16:45:05 by jbeall            #+#    #+#             */
-/*   Updated: 2019/06/03 15:22:26 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/06/04 11:34:38 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef NIBBLER_H
 # define NIBBLER_H
 
-# define GAME_SIZE_MAX 80
 # define GAME_SIZE_MIN 10
+# define GAME_SIZE_MAX 45
 
 # define FOOD_CHAR 'f'
 

@@ -6,7 +6,7 @@
 #    By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/03 12:06:08 by jbeall            #+#    #+#              #
-#    Updated: 2019/05/31 18:36:41 by jbeall           ###   ########.fr        #
+#    Updated: 2019/06/04 10:39:37 by jbeall           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ NO_COLOR    = \033[m
 COM_STRING  = "$(NAME) compilation successful"
 CLEAN_OBJ	= "cleaned $(NAME) objects"
 CLEAN_NAME	= "cleaned $(NAME) binary"
+CLEAN_LIB	= "cleaned $(name) libraries"
 
 #===================================== RULES ==================================#
 
@@ -70,14 +71,18 @@ dylib:
 	@mkdir -p $(LIB_DIR)
 	@clang++ -std=c++11 -g -shared -fPIC -l ncurses -o $(LIB_DIR)lib1.dylib $(SRC_DIR)Render1.cpp
 	@echo "lib1 successfully built!"
-	@clang++ -std=c++11 -g -shared -fPIC -I ~/.brew/include -L ~/.brew/lib -l SDL2 -l SDL2_ttf -o $(LIB_DIR)lib2.dylib $(SRC_DIR)Render2.cpp
+	@clang++ -std=c++11 -g -shared -fPIC `pkg-config --cflags --libs sdl2` -l SDL2_ttf -o $(LIB_DIR)lib2.dylib $(SRC_DIR)Render2.cpp
 	@echo "lib2 successfully built!"
+	@clang++ -std=c++11 -g -shared -fPIC `pkg-config --cflags --libs sdl2` -l SDL2_ttf -l SDL2_image -o $(LIB_DIR)lib3.dylib $(SRC_DIR)Render3.cpp
+	@echo "lib3 successfully built!"
 obj:
 	@mkdir -p $(OBJ_DIR)
 
 clean:
 	@rm -rf $(OBJ_DIR)
 	@echo "$(COM_COLOR)$(CLEAN_OBJ)$(NO_COLOR)"
+	@rm -rf $(LIB_DIR)
+	@echo "$(COM_COLOR)$(CLEAN_LIB)$(NO_COLOR)"
 
 fclean: clean
 	@rm -f $(NAME)

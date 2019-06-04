@@ -1,7 +1,8 @@
 # nibbler
 A simple recreation of the classic Snake game employing dynamically loaded visualization libraries
 
-![render style 1](img/render1.png =100x)
+<img src='img/render1.png' alt='render style 1' width='400'/>
+
 ![render style 2](img/render2.png)
 ![render style 3](img/render3.png)
 

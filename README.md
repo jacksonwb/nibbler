@@ -27,6 +27,7 @@ A simple recreation of the classic Snake game employing dynamically loaded visua
 `make; make dylib`
 
 On MacOS a simple script has been included to install dependencies through brew.
+The install script also supports linux systems using apt
 
 Install with : `./install.sh`
 

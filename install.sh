@@ -13,7 +13,7 @@ if [ "$(uname)" = "Darwin" ]; then
 	if [[ $(brew ls --versions sdl2_image) ]]; then
 		echo "sdl2_image already installed"
 	else
-		brew isntall sdl2_image
+		brew install sdl2_image
 	fi
 elif [ "$(uname)" = "Linux" ]; then
 	APT_VAR=`command -v apt-get`

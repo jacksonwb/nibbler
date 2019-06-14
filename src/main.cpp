@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
+/*   By: jackson <jbeall@student.42.us.org>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 16:31:20 by jbeall            #+#    #+#             */
-/*   Updated: 2019/06/04 11:33:14 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/06/13 19:26:52 by jackson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 #include "IRender.hpp"
 #include <iostream>
 #include <dlfcn.h>
+#include <cstring>
 
 void load_helper(std::string path, void** lib, IRender **render, Game& game) {
 	IRender*(*getRender)(Game&);
-	*lib = dlopen(path.c_str(), RTLD_LOCAL);
+	*lib = dlopen(path.c_str(), RTLD_NOW | RTLD_LOCAL);
 	if (!*lib) {
-		std::cout << "error: could not load graphics library" << std::endl;
+		std::cout << dlerror() << std::endl;
 		exit(EXIT_FAILURE);
 	}
 	getRender = (IRender*(*)(Game&))dlsym(*lib, "getRender");
@@ -69,7 +70,7 @@ int main(int argc, char **argv)
 	srand(time(NULL));
 	init_helper(argc, argv, &width, &height, &hard);
 	Game game(width, height, hard);
-	load_helper("lib/lib2.dylib", &lib, &render, game);
+	load_helper("./lib/lib1.dylib", &lib, &render, game);
 	unsigned in = 0;
 
 	while (in != 'q') {

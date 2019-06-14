@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Render3.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
+/*   By: jackson <jbeall@student.42.us.org>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 13:45:31 by jbeall            #+#    #+#             */
-/*   Updated: 2019/06/03 19:16:05 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/06/13 19:46:50 by jackson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 void Render::init(void) {
 	SDL_Surface *tmp;
+	SDL_DisplayMode DM;
+	double scale = 1;
 	if(SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::cout << "SDL Initialization Error" << std::endl;
 		return;
 	}
-	win = SDL_CreateWindow("nibbler", 100, 100, (game.map_width + 1) * RATIO, (game.map_height + 2) * RATIO, SDL_WINDOW_SHOWN);
+	win = SDL_CreateWindow("nibbler", 100, 100, (game.map_width + 1) * RATIO * scale, (game.map_height + 2) * RATIO * scale, SDL_WINDOW_SHOWN);
 	if (win == nullptr){
 		std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
 		destroy();
@@ -55,6 +57,7 @@ void Render::init(void) {
 	}
 	SDL_FreeSurface(tmp);
 	SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
+	SDL_RenderSetScale(ren, scale, scale);
 };
 
 char Render::getInput(void) {

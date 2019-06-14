@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+         #
+#    By: jackson <jbeall@student.42.us.org>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/03 12:06:08 by jbeall            #+#    #+#              #
-#    Updated: 2019/06/04 10:39:37 by jbeall           ###   ########.fr        #
+#    Updated: 2019/06/13 19:21:58 by jackson          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ DEP = $(OBJ:%.o=%.d)
 #INC_DIR = ./src/
 
 #INC = -I $(INC_DIR)
+LIB = -ldl
 
 #==================================== COLORS ==================================#
 
@@ -58,7 +59,7 @@ all: obj $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "linking..."
-	@clang++ $(CPPFLAGS) $^ -o $@
+	@clang++ $(CPPFLAGS) $(LIB) $^ -o $@
 	@echo "$(COM_COLOR) $(COM_STRING) $(NO_COLOR)"
 
 -include $(DEP)
@@ -69,9 +70,9 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 
 dylib:
 	@mkdir -p $(LIB_DIR)
-	@clang++ -std=c++11 -g -shared -fPIC -l ncurses -o $(LIB_DIR)lib1.dylib $(SRC_DIR)Render1.cpp
+	@clang++ -std=c++11 -g -shared -fPIC -lncurses -o $(LIB_DIR)lib1.dylib $(SRC_DIR)Render1.cpp
 	@echo "lib1 successfully built!"
-	@clang++ -std=c++11 -g -shared -fPIC `pkg-config --cflags --libs sdl2` -l SDL2_ttf -o $(LIB_DIR)lib2.dylib $(SRC_DIR)Render2.cpp
+	@clang++ -std=c++11 -g -shared -fPIC `pkg-config --cflags --libs sdl2` -lSDL2_ttf -o $(LIB_DIR)lib2.dylib $(SRC_DIR)Render2.cpp
 	@echo "lib2 successfully built!"
 	@clang++ -std=c++11 -g -shared -fPIC `pkg-config --cflags --libs sdl2` -l SDL2_ttf -l SDL2_image -o $(LIB_DIR)lib3.dylib $(SRC_DIR)Render3.cpp
 	@echo "lib3 successfully built!"

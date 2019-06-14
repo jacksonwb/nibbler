@@ -1,5 +1,5 @@
 #! /usr/bin/env sh
-if [ "$(uname)" == "Darwin" ]; then
+if [ "$(uname)" = "Darwin" ]; then
 	if [[ $(brew ls --versions sdl2) ]]; then
 		echo "sdl2 already installed"
 	else
@@ -15,7 +15,18 @@ if [ "$(uname)" == "Darwin" ]; then
 	else
 		brew isntall sdl2_image
 	fi
+elif [ "$(uname)" = "Linux" ]; then
+	APT_VAR=`command -v apt-get`
+	if [ APT_VAR ] ; then
+		sudo apt-get install -y libsdl2-dev
+		sudo apt-get install -y libsdl2-ttf-dev
+		sudo apt-get install -y libsdl2-image-dev
+	else
+		echo apt-get not installed!
+		exit 1;
+	fi
 fi
 
-make
-make dylib
+
+#make
+#make dylib

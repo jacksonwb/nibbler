@@ -27,6 +27,5 @@ elif [ "$(uname)" = "Linux" ]; then
 	fi
 fi
 
-
-#make
-#make dylib
+make
+make dylib

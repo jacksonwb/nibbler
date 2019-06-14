@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Render3.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jackson <jbeall@student.42.us.org>         +#+  +:+       +#+        */
+/*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 13:45:31 by jbeall            #+#    #+#             */
-/*   Updated: 2019/06/13 19:46:50 by jackson          ###   ########.fr       */
+/*   Updated: 2019/06/13 19:52:03 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ void Render::init(void) {
 		std::cout << "SDL Initialization Error" << std::endl;
 		return;
 	}
+	SDL_GetCurrentDisplayMode(0, &DM);
+	if (DM.w > 2560)
+		scale = 1.5;
 	win = SDL_CreateWindow("nibbler", 100, 100, (game.map_width + 1) * RATIO * scale, (game.map_height + 2) * RATIO * scale, SDL_WINDOW_SHOWN);
 	if (win == nullptr){
 		std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
